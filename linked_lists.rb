@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class LinkedList
   attr_reader :head
 
@@ -98,6 +96,60 @@ class LinkedList
   end
 
   def find(value)
+    result = nil
+    current = @head
+    count = 0
+
+    until current.nil?
+      result = count if current.value == value
+      current = current.next_node
+      count += 1
+    end
+
+    result
+  end
+
+  def to_s
+    current = @head
+    result = ""
+    until current.nil?
+      result << "( #{current.value} ) -> "
+      current = current.next_node
+      result << "nil" if current.nil?
+    end
+
+    result
+  end
+
+  def insert_at(value, index)
+    current = @head
+    count = 0
+
+    until current.nil?
+      if count == index
+        at(index - 1).next_node = Node.new(value, at(index))
+      end
+      current = current.next_node
+      count += 1
+    end
+
+    @head
+  end
+
+  def remove_at(index)
+    current = @head
+    count = 0
+
+    until current.nil?
+      if count == index
+        deleted = at(index)
+        at(index - 1).next_node = at(index + 1)
+      end
+      current = current.next_node
+      count += 1
+    end
+
+    deleted
   end
 end
 
@@ -111,31 +163,43 @@ class Node
 end
 
 list = LinkedList.new
-list.append(4)
-list.append(5)
-list.append(6)
-list.append(7)
-list.append(8)
-list.prepend(3)
-list.prepend(2)
-list.prepend(1)
+list.append(40)
+list.append(50)
+list.append(60)
+list.append(70)
+list.append(80)
+list.prepend(30)
+list.prepend(20)
+list.prepend(10)
+list.append(90)
+list.prepend(5)
 
-# p list
-# puts ''
-# p list.size
-# puts ''
-# p list.head
-# puts ''
-# p list.tail
-# puts ''
-# p list.at(2)
-# puts ''
-# p list.pop
-# puts ''
-# p list
-# puts ''
-# p list.reverse
-# puts ''
-# p list.contains(1)
-# p list.contains(9)
-# puts ''
+puts list
+puts '#size'
+p list.size
+puts '#head'
+p list.head
+puts '#tail'
+p list.tail
+puts '#at'
+p list.at(2)
+puts '#pop'
+p list.pop
+puts ''
+puts list
+puts '#contains'
+#p list.reverse
+p list.contains(1)
+p list.contains(9)
+puts '#find'
+p list.find(40)
+puts ''
+puts list
+puts '#insert_at'
+
+puts list
+p list.insert_at(12, 2)
+puts '#remove_at'
+puts list
+p list.remove_at(3)
+puts list
